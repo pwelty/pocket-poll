@@ -14,7 +14,23 @@ class Pocket {
 	private $consumerKey = '';
 	private $accessToken = '';
 	private $simulate = true;
-	private $suffix = '-posted';
+
+	function tagPost($id,$tag) {
+		$endpoint = 'https://getpocket.com/v3/send';
+		$vars = array();
+		$vars['consumer_key'] = $this->consumerKey;
+		$vars['access_token'] = $this->accessToken;
+		$vars['actions'] = array();
+		$action1 = array();
+		$action1['action'] = 'tags_add';
+		$action1['item_id'] = $id;
+		$action1['tags'] = $tag;
+		$vars['actions'][] = $action1;
+		if ($this->simulate) {
+			return $vars;
+		}
+		return $this->postSomething($endpoint,$vars);
+	}
 
 	function untagPost($id,$tag) {
 		$endpoint = 'https://getpocket.com/v3/send';
@@ -26,36 +42,38 @@ class Pocket {
 		$action1['action'] = 'tags_remove';
 		$action1['item_id'] = $id;
 		$action1['tags'] = $tag;
-		$action2 = array();
-		$action2['action'] = 'tags_add';
-		$action2['item_id'] = $id;
-		$action2['tags'] = $tag.$this->suffix;
 		$vars['actions'][] = $action1;
-		$vars['actions'][] = $action2;
 		if ($this->simulate) {
 			return $vars;
 		}
 		return $this->postSomething($endpoint,$vars);
 	}
 
-	public function getPosts($tag='sg-general',$count='100') {
+	public function getPostById($id) {
+		// TODO - if possible?
+	}
+
+	public function getPosts($tag='sg-general',$count='100',$sort='newest',$detail_type='simple') {
 		$endpoint = 'https://getpocket.com/v3/get';
 		$vars = array();
 		$vars['consumer_key'] = $this->consumerKey;
 		$vars['access_token'] = $this->accessToken;
 		$vars['tag'] = $tag;
 		$vars['count'] = $count;
-		$vars['sort'] = 'newest';
-		$vars['detailType'] = 'simple';
+		$vars['sort'] = $sort;
+		// $vars['sort'] = 'newest';
+		$vars['detailType'] = $detail_type;
+		// $vars['detailType'] = 'simple';
+		// print_r($vars);
 		$response = $this->postSomething($endpoint,$vars);
 		return $response;
 	}
 
-	function __construct($consumerKey,$accessToken,$action='',$simulate=true,$suffix='-posted') {
+	function __construct($consumerKey,$accessToken,$simulate,$action='') {
 		$this->consumerKey = $consumerKey;
 		$this->accessToken = $accessToken;
 		$this->simulate = $simulate;
-		$this->suffix = $suffix;
+		// $this->suffix = $suffix;
 		if ($action=='authorized') {
 			echo ("back from Pocket ... ");
 			$code=$_GET['code'];
