@@ -7,7 +7,8 @@
     },
     "require-dev": {
         "heroku/heroku-buildpack-php": "^121.0",
-        "phpunit/phpunit": "4.0.*"
+        "phpunit/phpunit": "4.0.*",
+        "vlucas/phpdotenv": "^2.4"
     },
     "license": "MIT",
     "authors": [
