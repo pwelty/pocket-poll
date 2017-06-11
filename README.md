@@ -1,2 +1,2 @@
-# pocket-pool
-Some vague attempt at some Pocket microservices
+# pocket-poll
+Some vague attempt at some a Pocket package
