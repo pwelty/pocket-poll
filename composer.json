@@ -6,7 +6,8 @@
         "php": "^7.0"
     },
     "require-dev": {
-        "heroku/heroku-buildpack-php": "^121.0"
+        "heroku/heroku-buildpack-php": "^121.0",
+        "phpunit/phpunit": "4.0.*"
     },
     "license": "MIT",
     "authors": [
@@ -15,5 +16,10 @@
             "email": "ponch@paulwelty.com"
         }
     ],
+    "autoload": {
+           "psr-4": {
+               "PWelty\\PocketPoll\\": "src"
+           }
+       },
     "minimum-stability": "alpha"
 }
